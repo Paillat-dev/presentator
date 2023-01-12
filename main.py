@@ -50,8 +50,8 @@ async def present(ctx: discord.ApplicationContext, subject: str, style: str = "d
     b64 = base64.urlsafe_b64encode(subject.encode("utf-8"))
     #if dosen't exist, create a directory called "userid" where the userid is the id of the user who called the command
     uid = str(ctx.author.id)
-    if not os.path.exists(uid):
-        os.mkdir(uid)
+    if not os.path.exists("data/"+uid):
+        os.mkdir("data/"+uid)
     datenow = datetime.datetime.now()
     datenow = datenow.strftime("%Y-%m-%d-%H-%M-%S")
     os.mkdir(f"data/{uid}/{b64}{datenow}")
@@ -134,7 +134,7 @@ async def list(ctx: discord.ApplicationContext):
     await ctx.respond(embed=embed, ephemeral=True)
 
 async def get_presentations(uid):
-    folders = os.listdir(f"./{uid}")
+    folders = os.listdir(f"./data/{uid}")
     names = {}
     for folder in folders:
         name = base64.urlsafe_b64decode(folder[2:-20]).decode("utf-8")
