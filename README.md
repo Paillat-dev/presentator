@@ -72,3 +72,8 @@ uvicorn main:app --reload
     - `indications` : Some more instructions about how the presentation should be generated (default: `None`)
 - `/list` : Lists all of your presentations
 - `/get` : Gets a presentation by its id another time
+
+# Help
+You can join our discord server if you need help
+
+<iframe src="https://discord.com/widget?id=1050769643180146749&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
