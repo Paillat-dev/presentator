@@ -12,6 +12,7 @@
 - We send the pdf and html files to the user
 
 # How to install
+**IMPORTANT** Linux installation isn't documented yet, if anyone with a nvidia gpu wants to complete the steps for linux, feel free to pull request.
 ## Requirements
 - Python 3.8
 - Pip
