@@ -75,5 +75,6 @@ uvicorn main:app --reload
 
 # Help
 You can join our discord server if you need help
+https://discord.gg/pB6hXtUeDv
 
-<iframe src="https://discord.com/widget?id=1050769643180146749&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+Have fun!
