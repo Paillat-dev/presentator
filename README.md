@@ -1,7 +1,13 @@
 # Presentator
- A Discord bot that generates FULL powerpoints about a given subject thanks to openai's gpt3
+ A Discord bot that generates FULL powerpoints about a given subject thanks to openai's gpt3.
+ 
+# How it works
+- The bot sends a request to the openai api with the given subject and indications in the marp markdown format
+- We extract the images from the markdown and send them to the image generation api
+- We generate the pdf and html files from the markdown
+- We send the pdf and html files to the user
 
-# How to use
+# How to install
 ## Requirements
 - Python 3.8
 - Pip
@@ -13,6 +19,16 @@
 - Clone the repository
 - Install the requirements with 
 `pip install -r requirements.txt`
+- Install scoop (if not alredy installed) by typing the following commands:
+```
+Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
+irm get.scoop.sh | iex
+```
+- Install marp by doing
+```
+scoop install marp
+```
+- Restart your computer
 - Create a file named `key.env` and put your openai api key in it
 - Create a file named `token.env` and put your discord bot token in it
 - In the main.py file, at the first line, enable or disable the image generation (by default it's disabled)
@@ -30,7 +46,7 @@ pip install uvicorn
 pip install fastapi
 ```
 
-## Running
+# Running
 - Run the `main.py` file with :
 ```
 python main.py
@@ -42,7 +58,7 @@ python main.py
 uvicorn main:app --reload
 ```
 
-## Commands
+# Commands
 - `/present` : Generates a pdf presentation about the given subject
   
    Options:
@@ -52,9 +68,3 @@ uvicorn main:app --reload
     - `indications` : Some more instructions about how the presentation should be generated (default: `None`)
 - `/list` : Lists all of your presentations
 - `/get` : Gets a presentation by its id another time
-
-# How it works
-- The bot sends a request to the openai api with the given subject and indications in the marp markdown format
-- We extract the images from the markdown and send them to the image generation api
-- We generate the pdf and html files from the markdown
-- We send the pdf and html files to the user
