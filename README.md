@@ -34,13 +34,7 @@ irm get.scoop.sh | iex
 scoop install marp
 ```
 - Restart your computer
-- Create a file named `key.env` and put your openai api key in it
-- Create a file named `token.env` and put your discord bot token in it
-- In the main.py file, at the first line, enable or disable the image generation (by default it's disabled)
-```python
-# Enable or disable image generation
-use_images = False
-```
+- Put your openai api key and discord bot token in the `.env.example` file and rename it to `.env`
 
 ## Image generation (optional)
 ### With Stable Diffusion UI (powerful gpu option)
@@ -51,10 +45,9 @@ use_images = False
 pip install uvicorn
 pip install fastapi
 ```
-- In the file `main.py`, at the first line, enable or disable the `sd` image generation.
+- In the file `.env`, set the `USE_IMAGES` variable to `sd`
 ### With DALL·E 2 (costs dalle credits)
-- In the file `main.py`, at the first line, enable or disable the dalle image generation.
-
+- In the file `.env`, set the `USE_IMAGES` variable to `dalle`
 # Running
 - Run the `main.py` file with :
 ```

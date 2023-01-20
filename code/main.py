@@ -1,7 +1,3 @@
-#Uncomment you prefered images generation method
-#use_images = "dalle" # generate images remotely with dalle 2 in your openai account
-use_images = "sd" # generate images locally with stable diffusion sdkit ui (instructions in the readme)
-#use_images = "No" # no images
 import openai
 # from openai import api_key
 import discord
@@ -15,6 +11,7 @@ import datetime
 import base64
 import requests
 from dotenv import load_dotenv
+use_images = os.getenv("USE_IMAGES")
 if use_images != "No": import imagesGeneration
 logging.basicConfig(level=logging.INFO)
 imageint = ""
