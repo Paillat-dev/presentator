@@ -12,13 +12,13 @@
 - We send the pdf and html files to the user
 
 # How to install
-**IMPORTANT** Linux installation isn't documented yet, if anyone with a nvidia gpu wants to complete the steps for linux, feel free to pull request.
+**IMPORTANT** Linux and MacOS installation isn't documented yet, if anyone wanths to complete it, feel free to do a pull request.
 ## Requirements
 - Python 3.8
 - Pip
 - A Discord bot token
 - An openai api key
-- (Optional) An Nvidia GPU (for image generation)
+- (Optional) An Nvidia GPU (for local image generation)
 
 ## Installation
 - Clone the repository
@@ -42,7 +42,8 @@ scoop install marp
 use_images = False
 ```
 
-### Image generation (optional)
+## Image generation (optional)
+### With Stable Diffusion UI (powerful gpu option)
 - Install [Stable Diffusion UI](https://github.com/cmdr2/stable-diffusion-ui) and switch to the `beta` branch.
 - Copy the `./image_gen_api/main.py` file to the `stable-diffusion-ui` folder
 - Open the file called `Dev Console.cmd` in the `stable-diffusion-ui` folder and run the following commands:
@@ -50,6 +51,9 @@ use_images = False
 pip install uvicorn
 pip install fastapi
 ```
+- In the file `main.py`, at the first line, enable or disable the `sd` image generation.
+### With DALL·E 2 (costs dalle credits)
+- In the file `main.py`, at the first line, enable or disable the dalle image generation.
 
 # Running
 - Run the `main.py` file with :
@@ -57,7 +61,7 @@ pip install fastapi
 python main.py
 ```
 
-### Image generation (optional)
+### Local image generation (optional, only if you use the local image generation option)
 - Open the file called `Dev Console.cmd` in the `stable-diffusion-ui` folder and run the following commands:
 ```
 uvicorn main:app --reload
