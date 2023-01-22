@@ -11,6 +11,7 @@ import datetime
 import base64
 import requests
 from dotenv import load_dotenv
+load_dotenv()
 use_images = os.getenv("USE_IMAGES")
 if use_images != "No": import imagesGeneration
 logging.basicConfig(level=logging.INFO)
@@ -94,10 +95,10 @@ class:
         print(image_filenames)
         for images in image_filenames:
             #we download the image
-            print ("generating image" + images)
-            r = await imagesGeneration.generate(images, f"{os.getcwd()}\\data\\{uid}\\{b64}{datenow}\\", use_images, apikey)
-            if use_images == "sd": os.rename(f"{os.getcwd()}\\.\\data\\{uid}\\{b64}{datenow}\\{images}_0.png", f"{os.getcwd()}\\data\\{uid}\\{b64}{datenow}\\{images}.png")
-            if use_images == "dalle": 
+            print ("generating image " + images + "with " + str(use_images))
+            r = await imagesGeneration.generate(images, f"{os.getcwd()}\\data\\{uid}\\{b64}{datenow}\\", str(use_images), apikey)
+            if str(use_images) == "sd": os.rename(f"{os.getcwd()}\\.\\data\\{uid}\\{b64}{datenow}\\{images}_0.png", f"{os.getcwd()}\\data\\{uid}\\{b64}{datenow}\\{images}.png")
+            if str(use_images) == "dalle": 
                 image_url = r['data'][0]['url']
                 img_data = requests.get(image_url).content
                 with open(f'./data/{uid}/{b64}{datenow}/{images}.png', 'wb') as handler:
@@ -159,9 +160,7 @@ async def on_ready():
     if not os.path.exists("data"):
         os.mkdir("data")
 #get the openai key drom he key.env file
-load_dotenv()
 token = os.getenv("TOKEN")
 apikey = os.getenv("OPENAI")
 openai.api_key = apikey
-print(token)
 bot.run(token)
