@@ -14,7 +14,7 @@ path=""
 prompt=""
 app = FastAPI()
 context = sdkit.Context()
-context.model_paths['stable-diffusion'] = '.\\models\\stable-diffusion\\openjourney-v2-unpruned.ckpt'
+context.model_paths['stable-diffusion'] = '.\\models\\stable-diffusion\\sd-v1-4.ckpt'
 load_model(context, 'stable-diffusion')
 context.model_paths['gfpgan'] = '.\\models\\gfpgan\\GFPGANv1.3.pth'
 load_model(context, 'gfpgan')
