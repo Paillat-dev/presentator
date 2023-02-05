@@ -9,4 +9,4 @@ RUN wget https://github.com/marp-team/marp-cli/releases/download/v2.3.0/marp-cli
 RUN tar -xvf marp-cli-v2.3.0-linux.tar.gz
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /presentator/code
 USER appuser
-CMD ["python", "main.py"]
+CMD ["python", "./code/main.py"]
