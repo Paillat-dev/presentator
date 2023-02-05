@@ -1,7 +1,7 @@
 import openai
 # from openai import api_key
 import discord
-from discord import Intents, ApplicationCommandOptionType
+from discord import Intents
 from discord.commands import slash_command, option
 from discord.ext import commands
 import re
