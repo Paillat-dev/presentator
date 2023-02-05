@@ -3,6 +3,7 @@ import openai
 import discord
 from discord import Intents
 from discord.commands import slash_command, option
+from discord.ext import commands
 import re
 import os
 import asyncio
@@ -13,6 +14,7 @@ import requests
 from dotenv import load_dotenv
 load_dotenv()
 use_images = os.getenv("USE_IMAGES")
+cooldown = os.getenv("COOLDOWN")
 if use_images != "No": import imagesGeneration
 logging.basicConfig(level=logging.INFO)
 imageint = ""
@@ -42,6 +44,8 @@ async def get_ln(ctx: discord.AutocompleteContext):
 @option(name="style", description="The style of the presentation", required=False, autocomplete=get_style)
 @option(name="language", description="The language of the presentation", required=False, autocomplete=get_ln)
 @option(name="indications", description="The indications for the presentation", required=False)
+# a cooldown of duration cooldown seconds
+@commands.cooldown(1, int(cooldown), commands.BucketType.user)
 async def present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
     await ctx.defer()
     date = datetime.datetime.now()
