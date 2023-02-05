@@ -1,7 +1,7 @@
 import openai
 # from openai import api_key
 import discord
-from discord import Intents
+from discord import Intents, ApplicationCommandOptionType
 from discord.commands import slash_command, option
 from discord.ext import commands
 import re
@@ -163,6 +163,10 @@ async def on_ready():
     #if the data directory doesn't exist we create it
     if not os.path.exists("data"):
         os.mkdir("data")
+@bot.event
+async def on_application_command_error(ctx, error):
+    #if there is an error we send a message to the user
+    await ctx.respond(f"An error occured: {error}", ephemeral=True)
 #get the openai key drom he key.env file
 token = os.getenv("TOKEN")
 apikey = os.getenv("OPENAI")
