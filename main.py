@@ -109,13 +109,20 @@ class:
                     handler.write(img_data)
     with open(f"./data/{uid}/{b64}{datenow}/{subject}.md", "w", encoding="utf8") as f: f.write(present)
     #we execute the command to convert the markdown file to a pdf and html file and also generate the first slide image
-    cmd = f"./marp --pdf --allow-local-files \"data/{uid}/{b64}{datenow}/{subject}.md\""
+    current_dir = os.getcwd()
+    #cmd = f"./marp --pdf --allow-local-files data/{uid}/{b64}{datenow}/{subject}.md"
+    cmd = f"./marp --pdf --allow-local-files {current_dir}/data/{uid}/{b64}{datenow}/{subject}.md"
     os.system(cmd)
     print(cmd)
-    cmd = f"./marp --image png -o \"./data/{uid}/{b64}{datenow}/{subject}.png\" --allow-local-files \"data/{uid}/{b64}{datenow}/{subject}.md\""
+    #cmd = f"./marp --image png -o ./data/{uid}/{b64}{datenow}/{subject}.png --allow-local-files data/{uid}/{b64}{datenow}/{subject}.md"
+    #the above command is not working in docker, so we use the following one
+    cmd = f"./marp --image png -o {current_dir}/data/{uid}/{b64}{datenow}/{subject}.png --allow-local-files {current_dir}/data/{uid}/{b64}{datenow}/{subject}.md"
+    #hopefully this will work in docker
     os.system(cmd)
     print(cmd)
-    cmd = f"./marp --html --allow-local-files \"data/{uid}/{b64}{datenow}/{subject}.md\""
+    #cmd = f"./marp --html --allow-local-files data/{uid}/{b64}{datenow}/{subject}.md"
+
+    cmd = f"./marp --html --allow-local-files {current_dir}/data/{uid}/{b64}{datenow}/{subject}.md"
     os.system(cmd)
     print(cmd)
     #we create an embed with the first slide imageand send it with the pdf file and the markdown file
