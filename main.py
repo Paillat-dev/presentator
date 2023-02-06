@@ -70,13 +70,18 @@ async def present(ctx: discord.ApplicationContext, subject: str, style: str = "d
     await ctx.defer()
     date = datetime.datetime.now()
     date = date.strftime("%Y-%m-%d-%H-%M-%S")
+    #if the style is dark
+    dark = False
+    if style in darkstyles: 
+        sty = style.replace("-dark", "")
+        dark = True 
     marp = f'''---
 marp: true
 theme: {styles[styles.index(style)]}
 class:
     - lead
 '''
-    if style in darkstyles: marp = marp + f"    - invert\n---"
+    if dark: marp = marp + f"    - invert\n---"
     else: marp = marp + "\n---"
     prompt = f"{intstructions} {indications} The subject of the presentation is: {subject} The Language is: {language} <|endofprompt|> \n {marp}"    
     subject2 = subject
