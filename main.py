@@ -110,6 +110,7 @@ class:
     with open(f"./data/{uid}/{b64}{datenow}/{subject}.md", "w", encoding="utf8") as f: f.write(present)
     #we execute the command to convert the markdown file to a pdf and html file and also generate the first slide image
     current_dir = os.getcwd()
+    print(current_dir)
     #cmd = f"./marp --pdf --allow-local-files data/{uid}/{b64}{datenow}/{subject}.md"
     cmd = f"./marp --pdf --allow-local-files {current_dir}/data/{uid}/{b64}{datenow}/{subject}.md"
     os.system(cmd)
