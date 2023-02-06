@@ -113,17 +113,21 @@ class:
     print(current_dir)
     #cmd = f"./marp --pdf --allow-local-files data/{uid}/{b64}{datenow}/{subject}.md"
     cmd = f"./marp --pdf --allow-local-files {current_dir}/data/{uid}/{b64}{datenow}/{subject}.md"
+    #we replace all the ' with \'
+    cmd = cmd.replace("'", "\\'")
     os.system(cmd)
     print(cmd)
     #cmd = f"./marp --image png -o ./data/{uid}/{b64}{datenow}/{subject}.png --allow-local-files data/{uid}/{b64}{datenow}/{subject}.md"
     #the above command is not working in docker, so we use the following one
     cmd = f"./marp --image png -o {current_dir}/data/{uid}/{b64}{datenow}/{subject}.png --allow-local-files {current_dir}/data/{uid}/{b64}{datenow}/{subject}.md"
+    cmd = cmd.replace("'", "\\'")
     #hopefully this will work in docker
     os.system(cmd)
     print(cmd)
     #cmd = f"./marp --html --allow-local-files data/{uid}/{b64}{datenow}/{subject}.md"
 
     cmd = f"./marp --html --allow-local-files {current_dir}/data/{uid}/{b64}{datenow}/{subject}.md"
+    cmd = cmd.replace("'", "\\'")
     os.system(cmd)
     print(cmd)
     #we create an embed with the first slide imageand send it with the pdf file and the markdown file
