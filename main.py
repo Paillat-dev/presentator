@@ -47,7 +47,6 @@ async def get_ln(ctx: discord.AutocompleteContext):
 #command wprks only in dm and only for user 707196665668436019
 @commands.is_owner()
 async def private_present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
-    await ctx.defer()
     await present(ctx, subject, style, language, indications)
 
 
@@ -63,6 +62,10 @@ async def private_present(ctx: discord.ApplicationContext, subject: str, style: 
 
 #@commands.cooldown(1, int(cooldown), commands.BucketType.user)
 @commands.cooldown(1, int(cooldown), commands.BucketType.guild)
+async def normal_present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
+    await present(ctx, subject, style, language, indications)
+
+
 async def present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
     await ctx.defer()
     date = datetime.datetime.now()
