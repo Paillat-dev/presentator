@@ -62,6 +62,7 @@ async def private_present(ctx: discord.ApplicationContext, subject: str, style: 
 # a cooldown of duration cooldown seconds, except if the user is 707196665668436019
 
 #@commands.cooldown(1, int(cooldown), commands.BucketType.user)
+@commands.cooldown(1, int(cooldown), commands.BucketType.guild)
 async def present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
     await ctx.defer()
     date = datetime.datetime.now()
