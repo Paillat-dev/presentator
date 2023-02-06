@@ -9,6 +9,7 @@ RUN apt-get install -y chromium # for marp
 WORKDIR /presentator
 RUN wget https://github.com/marp-team/marp-cli/releases/download/v2.3.0/marp-cli-v2.3.0-linux.tar.gz
 RUN tar -xvf marp-cli-v2.3.0-linux.tar.gz
+RUN rm marp-cli-v2.3.0-linux.tar.gz
 RUN adduser -u 5678 --disabled-password --gecos "" appuser && chown -R appuser /presentator
 USER appuser
 CMD ["python", "main.py"]
