@@ -38,14 +38,30 @@ async def get_ln(ctx: discord.AutocompleteContext):
     """Returns a list of colors that begin with the characters entered so far."""
     return [color for color in languages if color.startswith(ctx.value.lower())]
 
+@bot.slash_command(name="private_present", description="Generate a presentation with marp, private command for user 707196665668436019")
+#we create a function that takes the subject of the presentation and the style of the presentation as arguments, and that
+@option(name="subject", description="The subject of the presentation", required=True)
+@option(name="style", description="The style of the presentation", required=False, autocomplete=get_style)
+@option(name="language", description="The language of the presentation", required=False, autocomplete=get_ln)
+@option(name="indications", description="The indications for the presentation", required=False)
+#command wprks only in dm and only for user 707196665668436019
+@commands.is_owner()
+async def private_present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
+    await ctx.defer()
+    await present(ctx, subject, style, language, indications)
+
+
+
+
 @bot.slash_command(name="present", description="Generate a presentation with marp")
 #we create a function that takes the subject of the presentation and the style of the presentation as arguments, and that
 @option(name="subject", description="The subject of the presentation", required=True)
 @option(name="style", description="The style of the presentation", required=False, autocomplete=get_style)
 @option(name="language", description="The language of the presentation", required=False, autocomplete=get_ln)
 @option(name="indications", description="The indications for the presentation", required=False)
-# a cooldown of duration cooldown seconds
-@commands.cooldown(1, int(cooldown), commands.BucketType.user)
+# a cooldown of duration cooldown seconds, except if the user is 707196665668436019
+
+#@commands.cooldown(1, int(cooldown), commands.BucketType.user)
 async def present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
     await ctx.defer()
     date = datetime.datetime.now()
