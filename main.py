@@ -168,12 +168,14 @@ class:
     cmd = f"--pdf --allow-local-files ./data/{uid}/{b64}{datenow}/{subject}.md"
     #we replace all the ' with \'
     #if the os is linux we replace the \ with /
-    
+    t = False
     try:
         os.system(f"marp.exe {cmd}")
+        print("marp.exe")
     except: 
         cmd = cmd.replace("'", "\\'")
         os.system(f"./marp {cmd}")
+        print("marp")
     print(cmd)
     #cmd = f"./marp --image png -o ./data/{uid}/{b64}{datenow}/{subject}.png --allow-local-files data/{uid}/{b64}{datenow}/{subject}.md"
     #the above command is not working in docker, so we use the following one
