@@ -181,8 +181,9 @@ class:
     #the above command is not working in docker, so we use the following one
     cmd = f" --image png -o ./data/{uid}/{b64}{datenow}/{subject}.png --allow-local-files ./data/{uid}/{b64}{datenow}/{subject}.md"
     #hopefully this will work in docker
-    try: os.system(f"marp.exe {cmd}")
-    except:
+    #try: os.system(f"marp.exe {cmd}")
+    #except:
+    if True:
         cmd = cmd.replace("'", "\\'")
         os.system(f"./marp {cmd}")
     print(cmd)
