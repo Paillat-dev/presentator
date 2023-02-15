@@ -24,15 +24,8 @@
 - Clone the repository
 - Install the requirements with 
 `pip install -r requirements.txt`
-- Install scoop (if not alredy installed) by typing the following commands:
-```
-Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
-irm get.scoop.sh | iex
-```
-- Install marp by doing
-```
-scoop install marp
-```
+- Download the correct zip / tar marp file for your os [here](https://github.com/marp-team/marp-cli/releases/tag/v2.3.0).
+- Extract the content of that file in the presentator folder (the one you downloaded on step 1).
 - Restart your computer
 - Put your openai api key and discord bot token in the `.env.example` file and rename it to `.env`
 
