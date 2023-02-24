@@ -11,6 +11,8 @@ import logging
 import datetime
 import base64
 import requests
+import zipfile
+from zipfile import ZipFile
 from dotenv import load_dotenv
 load_dotenv()
 use_images = os.getenv("USE_IMAGES")
@@ -28,24 +30,25 @@ intstructions = f'''Here is a presentation with marp. It's not possible to make 
  then go at the line. The presentatio should be for everybody, all technical words and concepts, explained. {imageint} The presentation is minimum 20 slides long. You can use bulletpoints. Use markdown formatting (titles, etc...). The presentation has also a conclusion.'''
 bot = discord.Bot()
 
-styles = ["default", "gaia", "uncover", "default-dark", "gaia-dark", "uncover-dark"]
+styles = ["default", "gaia", "uncover", "default-dark", "gaia-dark", "uncover-dark", "olive"]
 languages = ["english", "french", "spanish", "german", "italian", "portuguese", "russian", "chinese", "japanese", "korean", "arabic"]
 darkstyles = ["default-dark", "gaia-dark", "uncover-dark"]
+customstyles = ["olive"]
 async def get_style(ctx: discord.AutocompleteContext):
     """Returns a list of colors that begin with the characters entered so far."""
-    return [color for color in styles if color.startswith(ctx.value.lower())]
+    return [style for style in styles if style.startswith(ctx.value.lower())]
 async def get_ln(ctx: discord.AutocompleteContext):
-    """Returns a list of colors that begin with the characters entered so far."""
-    return [color for color in languages if color.startswith(ctx.value.lower())]
+    return [language for language in languages if language.startswith(ctx.value.lower())]
 
 @bot.slash_command(name="private_present", description="Generate a presentation with marp, private command for user 707196665668436019")
 @option(name="subject", description="The subject of the presentation", required=True)
 @option(name="style", description="The style of the presentation", required=False, autocomplete=get_style)
+@option(name="center", description="Center the text", required=False)
 @option(name="language", description="The language of the presentation", required=False, autocomplete=get_ln)
 @option(name="indications", description="The indications for the presentation", required=False)
 #command wprks only in dm and only for user 707196665668436019
 @commands.is_owner()
-async def private_present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
+async def private_present(ctx: discord.ApplicationContext, subject: str, style: str = "default", center: bool = True, language: str = "english", indications: str = ""):
     await present(ctx, subject, style, language, indications)
 
 
@@ -55,47 +58,49 @@ async def private_present(ctx: discord.ApplicationContext, subject: str, style: 
 #we create a function that takes the subject of the presentation and the style of the presentation as arguments, and that
 @option(name="subject", description="The subject of the presentation", required=True)
 @option(name="style", description="The style of the presentation", required=False, autocomplete=get_style)
+@option(name="center", description="Center the text", required=False)
 @option(name="language", description="The language of the presentation", required=False, autocomplete=get_ln)
 @option(name="indications", description="The indications for the presentation", required=False)
 # a cooldown of duration cooldown seconds, except if the user is 707196665668436019
 
 #@commands.cooldown(1, int(cooldown), commands.BucketType.user)
 @commands.cooldown(1, int(cooldown), commands.BucketType.guild)
-async def normal_present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
+async def normal_present(ctx: discord.ApplicationContext, subject: str, style: str = "default", center: bool = True, language: str = "english", indications: str = ""):
     await present(ctx, subject, style, language, indications)
 
 
-async def present(ctx: discord.ApplicationContext, subject: str, style: str = "default", language: str = "english", indications: str = ""):
+async def present(ctx: discord.ApplicationContext, subject: str, style: str = "default", center: bool = True, language: str = "english", indications: str = ""):
     await ctx.defer()
     date = datetime.datetime.now()
     date = date.strftime("%Y-%m-%d-%H-%M-%S")
     #if the style is dark
     dark = False
     if style in darkstyles: 
-        sty = style.replace("-dark", "")
+        style = style.replace("-dark", "")
         dark = True 
     marp = f'''---
 marp: true
 theme: {styles[styles.index(style)]}
 class:
-    - lead
 '''
     if dark: marp = marp + f"    - invert\n---"
+    if center: marp = marp + "    - lead\n---"
     else: marp = marp + "\n---"
+#    if style in customstyles: 
+#        marp = f"/* @theme {style} */\n" + marp
+#        print(marp)
     prompt = f"{intstructions} {indications} The subject of the presentation is: {subject} The Language is: {language} <|endofprompt|> \n {marp}"    
     subject2 = subject
     forbidden = ["\\", "/", "?", "!", ":", ";", "(", ")", "[", "]", "{", "}", "'", '"', "=", "+", "*", "&", "^", "%", "$", "#", "@", "`", "~", "|", "<", ">", ",", ".", "?", " "]
     for i in forbidden: 
         if i in subject: subject = subject.replace(i, "-")
     #we save teh subject in base64 in a variable
-    b64 = base64.urlsafe_b64encode(subject.encode("utf-8"))
     #if dosen't exist, create a directory called "userid" where the userid is the id of the user who called the command
     uid = str(ctx.author.id)
     if not os.path.exists("./data/"+uid):
         os.mkdir("./data/"+uid)
     datenow = datetime.datetime.now()
     datenow = datenow.strftime("%Y-%m-%d-%H-%M-%S")
-    os.mkdir(f"./data/{uid}/{b64}{datenow}")
     response = await openai.Completion.acreate(
         engine="text-davinci-003",
         prompt=prompt,
@@ -115,46 +120,69 @@ class:
     for match in matches:
         image_filenames.append(match.group(1))
     #we create a text file with the image names and a md file for the presentation with utf8 encoding
-    with open(f"./data/{uid}/{b64}{datenow}/{subject}-images.txt", "w", encoding="utf8") as f:
+    if len(subject) > 15: subject = subject[:15]    
+    b64 = base64.urlsafe_b64encode(subject.encode("utf-8"))
+    os.mkdir(f"./data/{uid}/{b64}{datenow}")
+    path = f"./data/{uid}/{b64}{datenow}"
+    with open(f"{path}/{subject}-images.txt", "w", encoding="utf8") as f:
         for image in image_filenames:
             f.write(image + "\n")
-    #now we generate the images, if there are any
+    with open(f"{path}/{subject}.md", "w", encoding="utf8") as f: f.write(present)
     if len(image_filenames) > 0 and  use_images!="no":
         #now we first remove the extension from the image filenames by removing the last 4 characters
         image_filenames = [image[:-4] for image in image_filenames]
         print(image_filenames)
         for images in image_filenames:
-            #we download the image
             print ("generating image " + images + "with " + str(use_images))
             r = await imagesGeneration.generate(images, f"{os.getcwd()}\\data\\{uid}\\{b64}{datenow}\\", str(use_images), apikey)
             if str(use_images) == "sd": os.rename(f"{os.getcwd()}\\.\\data\\{uid}\\{b64}{datenow}\\{images}_0.png", f"{os.getcwd()}\\data\\{uid}\\{b64}{datenow}\\{images}.png")
             if str(use_images) == "dalle":
                 image_url = r['data'][0]['url']
                 img_data = requests.get(image_url).content
-                with open(f'./data/{uid}/{b64}{datenow}/{images}.png', 'wb') as handler:
+                with open(f'{path}/{images}.png', 'wb') as handler:
                     handler.write(img_data)
-                asyncio.sleep(15) #wait 15 seconds to avoid rate limiting
-    with open(f"./data/{uid}/{b64}{datenow}/{subject}.md", "w", encoding="utf8") as f: f.write(present)
-    cmd = f"--pdf --allow-local-files ./data/{uid}/{b64}{datenow}/{subject}.md"
+                await asyncio.sleep(15) #wait 15 seconds to avoid rate limiting
+    cmd = f"--pdf --allow-local-files {path}/{subject}.md"
+    if style in customstyles: cmd = cmd + f" --theme ./themes/{style}.css"
     if os.path.exists("./marp.exe"):
         os.system(f"marp.exe {cmd}")
     else:
         cmd = cmd.replace("'", "\\'")
         os.system(f"./marp {cmd}")
-    cmd = f" --image png -o ./data/{uid}/{b64}{datenow}/{subject}.png --allow-local-files ./data/{uid}/{b64}{datenow}/{subject}.md"
+    cmd = f" --image png -o {path}/{subject}.png --allow-local-files {path}/{subject}.md"
+    if style in customstyles: cmd = cmd + f" --theme ./themes/{style}.css"
     if os.path.exists("./marp.exe"):
         os.system(f"marp.exe {cmd}")
     else:
         cmd = cmd.replace("'", "\\'")
         os.system(f"./marp {cmd}")
-    cmd = f" --html --allow-local-files ./data/{uid}/{b64}{datenow}/{subject}.md"
+    cmd = f" --html --allow-local-files {path}/{subject}.md"
+    if style in customstyles: cmd = cmd + f" --theme ./themes/{style}.css" 
     if os.path.exists("./marp.exe"):
         os.system(f"marp.exe {cmd}")
     else:
         cmd = cmd.replace("'", "\\'") 
         os.system(f"./marp {cmd}")
-    embed = discord.Embed(title=subject2, description="Thanks for using presentator bot. You can download the presentation in different formats (pdf, markdown, html). The images are generated by an ai. If you want to modify your presentation you can use the markdown file. More information about how to modify the file [HERE](https://marp.app).", color=0xaaaaaa)
-    files = [discord.File(f"./data/{uid}/{b64}{datenow}/{subject}.pdf"), discord.File(f"./data/{uid}/{b64}{datenow}/{subject}.md"), discord.File(f"./data/{uid}/{b64}{datenow}/{subject}.html"), discord.File(f"./data/{uid}/{b64}{datenow}/{subject}.png")]
+    cmd = f" --pptx --allow-local-files {path}/{subject}.md"
+    if style in customstyles: cmd = cmd + f" --theme ./themes/{style}.css" 
+    if os.path.exists("./marp.exe"):
+        os.system(f"marp.exe {cmd}")
+    else:
+        cmd = cmd.replace("'", "\\'") 
+        os.system(f"./marp {cmd}")
+    #now, we create a zip file with all the files
+    zipObj = ZipFile(f"{path}/{subject}.zip", 'w')
+    zipObj.write(f"{path}/{subject}.md", f"{subject}.md")
+    zipObj.write(f"{path}/{subject}.html", f"{subject}.html")
+    zipObj.write(f"{path}/{subject}.pdf", f"{subject}.pdf")
+    zipObj.write(f"{path}/{subject}.png", f"{subject}.png")
+    zipObj.write(f"{path}/{subject}.pptx", f"{subject}.pptx")
+    with open(f"{path}/{subject}-images.txt", "r", encoding="utf8") as f:
+        for image in f.readlines():
+            zipObj.write(f"{path}/{image.strip()}", f"{image.strip()}")
+    zipObj.close()
+    embed = discord.Embed(title=subject2, description="Thanks for using presentator bot. You will find your presentation in the attached zip file in the following formats: markdown, html, pdf, pptx, and the presentation' images. If you want to modify your presentation you can use the markdown file. More information about how to modify the file [HERE](https://marp.app).", color=discord.Color.brand_red())
+    files = [discord.File(f"{path}/{subject}.zip"), discord.File(f"{path}/{subject}.png")]
     embed.set_image(url=f"attachment://{subject}.png")
     await ctx.respond(embed=embed, files=files)
 
@@ -192,6 +220,7 @@ async def on_ready():
 async def on_application_command_error(ctx, error):
     #if there is an error we send a message to the user
     await ctx.respond(f"An error occured: {error}", ephemeral=True)
+
 #get the openai key drom he key.env file
 token = os.getenv("TOKEN")
 apikey = os.getenv("OPENAI")
