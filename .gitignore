@@ -152,5 +152,5 @@ cython_debug/
 #.idea/
 token.env
 key.env
-
+marp.exe
 /data
