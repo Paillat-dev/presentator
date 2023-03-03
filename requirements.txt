@@ -1,3 +1,0 @@
-openai
-py-cord
-python-dotenv
