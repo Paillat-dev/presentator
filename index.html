@@ -1,73 +1,76 @@
-<html><head><style>/* Set font family and size for all text */
-body {
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-}
+<html>
+<head>
+<style>
+  /* Set font family and size for all text */
+  body {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+  }
 
-/* Style the headings */
-h1, h2 {
-  font-weight: bold;
-  margin-top: 1.5rem;
-}
+  /* Style the headings */
+  h1, h2 {
+    font-weight: bold;
+    margin-top: 1.5rem;
+  }
 
-/* Style the unordered list */
-ul {
-  list-style-type: disc;
-  margin-left: 2rem;
-}
+  /* Style the unordered list */
+  ul {
+    list-style-type: disc;
+    margin-left: 2rem;
+  }
 
-/* Style the links */
-a {
-  color: #007bff;
-  text-decoration: none;
-}
+  /* Style the links */
+  a {
+    color: #007bff;
+    text-decoration: none;
+  }
 
-a:hover {
-  text-decoration: underline;
-}
+  a:hover {
+    text-decoration: underline;
+  }
 
-/* Style the images */
-img {
-  max-width: 100%;
-  height: auto;
-}
-</style><style type="text/css" id="operaUserStyle"></style></head><body><h1 id="pr-sentateur">Présentateur</h1>
+  /* Style the images */
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+</style>
+<style type="text/css" id="operaUserStyle"></style>
+</head>
+<body>
+<h1 id="pr-sentateur">Présentateur</h1>
 <p>Présentateur est un bot Discord qui génère des présentations complètes sur un sujet donné grâce à GPT-3 d'OpenAI.</p>
 
 <p><img src="https://raw.githubusercontent.com/Paillat-dev/presentator/main/examples/steve-jobs/Steve-Jobs-1.png" alt="Exemple de présentation" width="50%" style="margin-left: 25%; margin-right: 25%;"></p>
 <p><img src="https://raw.githubusercontent.com/Paillat-dev/presentator/main/examples/python/the-python-programming-language-1.png" alt="Exemple de présentation" width="50%" style="margin-left: 25%; margin-right: 25%;"></p>
 <h2 id="fonctionnement">Fonctionnement</h2>
 <ul>
-<li>Le bot envoie une demande à l'API d'OpenAI avec le sujet donné et des indications au format Markdown Marp.</li>
-<li>Nous extrayons les images du Markdown et les envoyons à l'API de génération d'images.</li>
-<li>Nous générons les fichiers PDF et HTML à partir du Markdown.</li>
-<li>Nous envoyons les fichiers PDF et HTML à l'utilisateur.</li>
+  <li>Le bot envoie une demande à l'API d'OpenAI avec le sujet donné et des indications au format Markdown Marp.</li>
+  <li>Nous extrayons les images du Markdown et les envoyons à l'API de génération d'images.</li>
+  <li>Nous générons les fichiers PDF et HTML à partir du Markdown.</li>
+  <li>Nous envoyons les fichiers PDF et HTML à l'utilisateur.</li>
 </ul>
 <h2 id="installation">Installation</h2>
-<p><strong>IMPORTANT</strong> L'installation pour Linux et MacOS n'est pas encore documentée. Si vous souhaitez la compléter, n'hésitez pas à faire une pull request.
-Pour suivre les étapes de cette installation, vous devrez ouvrir un terminal. POur ce faire, tapez cmd dans la barre de recherche de votre ordinateur, puis entrée.</p>
-<h3 id="pr-requis">Prérequis</h3>
 <ul>
-<li>Installez Python 3.8 <a href="https://www.python.org/downloads/">https://www.python.org/downloads/</a></li>
-<li>Un token pour un bot Discord <a href="https://www.writebots.com/discord-bot-token/">https://www.writebots.com/discord-bot-token/</a></li>
-<li>Une clé d'API OpenAI <a href="https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key">https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key</a></li>
-<li>Un compte discord et un serveur discord où ajouter l'outil.<ul>
-<li><a href="https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-compte-discord">https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-compte-discord</a></li>
-<li><a href="https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-serveur-discord/">https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-serveur-discord/</a></li>
+  <li>Installez Python 3.8 <a href="https://www.python.org/downloads/" target="_blank">https://www.python.org/downloads/</a></li>
+  <li>Un token pour un bot Discord <a href="https://www.writebots.com/discord-bot-token/" target="_blank">https://www.writebots.com/discord-bot-token/</a></li>
+  <li>Une clé d'API OpenAI <a href="https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key" target="_blank">https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key</a></li>
+  <li>Un compte discord et un serveur discord où ajouter l'outil.<ul>
+  <li><a href="https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-serveur-discord/" target="_blank">https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-serveur-discord/</a></li>
 </ul>
 </li>
-<li><strong>Ne suivez pas l'étape 5 et à l'étape huit séléctionnez le permissions "administrateur".</strong> Un bot discord <a href="https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-bot-discord/#:~:text=help%C2%A0%C2%BB%20du%20bot.-,Cr%C3%A9ez%20votre%20propre%20bot%20Discord,-Si%20vous%20ne">https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-bot-discord/#:~:text=help%C2%A0%C2%BB%20du%20bot.-,Cr%C3%A9ez%20votre%20propre%20bot%20Discord,-Si%20vous%20ne</a></li>
+<li><strong>Ne suivez pas l'étape 5 et à l'étape huit séléctionnez le permissions "administrateur".</strong> Un bot discord <a href="https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-bot-discord/#:~:text=help%C2%A0%C2%BB%20du%20bot.-,Cr%C3%A9ez%20votre%20propre%20bot%20Discord,-Si%20vous%20ne" target="_blank">https://www.ionos.fr/digitalguide/serveur/know-how/creer-un-bot-discord/#:~:text=help%C2%A0%C2%BB%20du%20bot.-,Cr%C3%A9ez%20votre%20propre%20bot%20Discord,-Si%20vous%20ne</a></li>
 </ul>
 <h3 id="installation">Installation</h3>
 <ul>
-<li>Télécharez le code ici: <a href="https://github.com/Paillat-dev/presentator/archive/refs/heads/main.zip">https://github.com/Paillat-dev/presentator/archive/refs/heads/main.zip</a></li>
+<li>Télécharez le code ici: <a href="https://github.com/Paillat-dev/presentator/archive/refs/heads/main.zip" target="_blank">https://github.com/Paillat-dev/presentator/archive/refs/heads/main.zip</a></li>
 <li>Extrayez le dossier sur votre disque dur.</li>
 <li>Installez pip en tapant la commande suivante dans le terminal: <code>py -m ensurepip --upgrade</code></li>
 <li>Redémarrez votre ordinateur.</li>
 <li>Ouvrez un terminal DANS LE DOSSIER téléchargé à l'étape 1. Pour ce faire, ouvrez le dossier éxtrait, tout en maintenant la touche Maj ⇧ enfoncée, faites un clic droit sur une zone vide et sélectionnez Ouvrir une fenêtre de commandes ici.</li>
 <li>Tapez la commande suivante dans le terminal:<pre><code>pip <span class="hljs-keyword">install</span> -r requirements.txt
 </code></pre></li>
-<li>Téléchargez le fichier Marp ici: <a href="https://github.com/marp-team/marp-cli/releases/download/v2.3.0/marp-cli-v2.3.0-win.zip">https://github.com/marp-team/marp-cli/releases/download/v2.3.0/marp-cli-v2.3.0-win.zip</a></li>
+<li>Téléchargez le fichier Marp ici: <a href="https://github.com/marp-team/marp-cli/releases/download/v2.3.0/marp-cli-v2.3.0-win.zip" target="_blank">https://github.com/marp-team/marp-cli/releases/download/v2.3.0/marp-cli-v2.3.0-win.zip</a></li>
 <li>Extrayez le contenu du fichier téléchargé dans le dossier présentateur (celui que vous avez téléchargé et éxtrait à l'étape 1).</li>
 <li>Redémarrez votre ordinateur.</li>
 <li>Mettez votre clé d'API OpenAI et votre token de bot Discord dans le fichier <code>.env.example</code> et renommez-le en <code>.env</code>.</li>
@@ -87,6 +90,5 @@ COOLDOWN=5
 <li>Rendez vous sur discord</li>
 <li>A gauche de votre écran, vous devriez voir une icone ronde avec une lettre au millieu. Il s'agit de votre serveur.</li>
 <li>Rendez vous dans votre serveur en cliquant dessus, puis rendez vous dans général et tapez <code>/present</code> puis la touche tab. Une boite de dialogue devrait s'afficher avec le subject, sujet de votre présentation.</li>
-<li>Dans le serveur discord qu</li>
 </ul>
 </body></html>
