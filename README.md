@@ -28,7 +28,8 @@ Pour suivre les étapes de cette installation, vous devrez ouvrir un terminal. P
 ### Installation
 - Télécharez le code ici: https://github.com/Paillat-dev/presentator/archive/refs/heads/main.zip
 - Extrayez le dossier sur votre disque dur.
-- Installez pip en tapant la commande suivante dans le terminal: ```
+- Installez pip en tapant la commande suivante dans le terminal: 
+```
 py -m ensurepip --upgrade
 ```
 - Redémarrez votre ordinateur.
@@ -60,4 +61,3 @@ python main.py
 - Rendez vous sur discord
 - A gauche de votre écran, vous devriez voir une icone ronde avec une lettre au millieu. Il s'agit de votre serveur.
 - Rendez vous dans votre serveur en cliquant dessus, puis rendez vous dans général et tapez `/present` puis la touche tab. Une boite de dialogue devrait s'afficher avec le subject, sujet de votre présentation.
-- Dans le serveur discord qu
