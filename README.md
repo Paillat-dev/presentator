@@ -14,10 +14,10 @@
 # How to install
 **IMPORTANT** Linux and MacOS installation isn't documented yet, if anyone wanths to complete it, feel free to do a pull request.
 ## Requirements
-- Python 3.8
-- Pip
-- A Discord bot token
-- An openai api key
+- Python 3.8 https://www.python.org/downloads/
+- Pip https://pip.pypa.io/en/stable/installation/
+- A Discord bot token https://www.writebots.com/discord-bot-token/
+- An openai api key https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key
 - (Optional) An Nvidia GPU (for local image generation)
 
 ## Installation
@@ -31,6 +31,7 @@
 
 ## Image generation (optional)
 ### With Stable Diffusion UI (powerful gpu option)
+- **Do not use this option if you don't understand what you are doing!**
 - Install [Stable Diffusion UI](https://github.com/cmdr2/stable-diffusion-ui) and switch to the `beta` branch.
 - Copy the `./image_gen_api/main.py` file to the `stable-diffusion-ui` folder
 - Open the file called `Dev Console.cmd` in the `stable-diffusion-ui` folder and run the following commands:
